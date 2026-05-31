@@ -13,8 +13,13 @@ Paste your Groq API key in the .env file, have your PDF in the same folder as th
 https://huggingface.co/spaces/sobanakbar/client-summary
 
 # Tech Stack
-- **Python 3.11**
-- **Groq** (`openai/gpt-oss-120b`) — answer generation
-- **ChromaDB** — local vector database (embeds with `all-MiniLM-L6-v2`, no API key)
-- **LangChain** — PDF loading + chunking
-- **Gradio** — web UI, deployed on **Hugging Face Spaces**
+- Python 3.11
+- Groq (openai/gpt-oss-120b):  answer generation
+- ChromaDB: local vector database (embeds with all-MiniLM-L6-v2, no API key)
+- LangChain: PDF loading + chunking
+- Gradio: web UI, deployed on Hugging Face Spaces
+
+# Evaluation Test Results
+- Correctly answered: 15
+- Correctly said "I don't know": 4
+- Hallucinated: 5
