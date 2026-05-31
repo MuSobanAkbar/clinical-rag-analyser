@@ -40,9 +40,9 @@ qa = [
 ]
 
 collection = build_index("summary.pdf")
+
 for i, pair in enumerate(qa, start=1):
     answer = ask(collection, pair["q"])
     print(f"\nQ{i}: {pair['q']}")
     print(f"Expected: {pair['expected']}")
     print(f"Got:      {answer}")
-

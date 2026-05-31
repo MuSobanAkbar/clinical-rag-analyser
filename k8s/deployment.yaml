@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbot-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: chatbot
+  template:
+    metadata:
+      labels:
+        app: chatbot
+    spec:
+      containers:
+      - name: chatbot
+        image: isbnkbr/chatbot:v2
+        ports:
+        - containerPort: 8000
+        env:
+        - name: MODEL_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: chatbot-config
+              key: MODEL_NAME
+        - name: GROQ_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: chatbot-secret
+              key: GROQ_API_KEY

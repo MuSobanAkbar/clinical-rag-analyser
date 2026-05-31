@@ -3,3 +3,4 @@ chroma_db/
 *.pdf
 venv/
 __pycache__/
+k8s/secret.yaml
