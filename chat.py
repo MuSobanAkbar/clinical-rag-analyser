@@ -43,7 +43,7 @@ def ask(collection, question):
     system_prompt = (
         "You answer questions using ONLY the provided sources. "
         "Cite the source you used like [Source 1] at the end. "
-        "Answers must be TO THE POINT and concise"
+        "Answers must be TO THE POINT and concise."
         "If the answer is not in the sources, say 'I don't know based on the document.' "
         "Do not use outside knowledge."
     )
