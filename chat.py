@@ -63,4 +63,8 @@ if __name__ == "__main__":
     collection = build_index(pdf_name)
     while True:
         q = input("You: ")
+        if q.lower() in ("quit"):
+            break
+        if not q:
+            continue
         print("\n" + ask(collection, q))
