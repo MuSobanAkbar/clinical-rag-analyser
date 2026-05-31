@@ -1,0 +1,66 @@
+import os
+import chromadb        
+from dotenv import load_dotenv
+from groq import Groq  
+from langchain_community.document_loaders import PyPDFLoader            
+from langchain_text_splitters import RecursiveCharacterTextSplitter    
+
+
+load_dotenv()
+groq_client = Groq()
+
+
+
+
+def build_index(pdf_path):
+    pages = PyPDFLoader(pdf_path).load()
+
+    chunks = RecursiveCharacterTextSplitter(
+        chunk_size = 1000,
+        chunk_overlap=200,
+    ).split_documents(pages)
+    
+    client = chromadb.PersistentClient(path="./chroma_db")
+    collection = client.get_or_create_collection("pdf")
+    collection.add(
+        documents=[c.page_content for c in chunks],
+        ids=[f"chunk_{i}" for i in range(len(chunks))],
+        metadatas=[{"page": c.metadata.get("page", 0)} for c in chunks],
+    )
+    print(f"Indexed {len(chunks)} chunks.")
+    return collection
+def ask(collection, question):
+    results = collection.query(query_texts=[question], n_results=3)
+    retrieved = results["documents"][0]
+
+
+    context = ""
+
+    
+    for i, chunk in enumerate(retrieved, start=1):
+        context += f"[Source {i}]\n{chunk}\n\n"
+    
+    system_prompt = (
+        "You answer questions using ONLY the provided sources. "
+        "Cite the source you used like [Source 1] at the end. "
+        "Answers must be TO THE POINT and concise"
+        "If the answer is not in the sources, say 'I don't know based on the document.' "
+        "Do not use outside knowledge."
+    )
+    user_prompt = f"Sources:\n{context}\nQuestion: {question}"
+    response = groq_client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        temperature=0.2,   
+    )
+    return response.choices[0].message.content
+
+if __name__ == "__main__":
+    pdf_name = input("Type your PDF file name (with .pdf at the end): ").strip()
+    collection = build_index(pdf_name)
+    while True:
+        q = input("You: ")
+        print("\n" + ask(collection, q))
