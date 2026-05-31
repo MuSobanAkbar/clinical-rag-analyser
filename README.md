@@ -22,4 +22,4 @@ https://huggingface.co/spaces/sobanakbar/client-summary
 # Evaluation Test Results
 - Correctly answered: 15
 - Correctly said "I don't know": 4
-- Hallucinated: 5
+- Hallucinated: 1

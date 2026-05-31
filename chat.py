@@ -59,7 +59,7 @@ def ask(collection, question):
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
-        temperature=0.2,   
+        temperature=0.0,   
     )
     return response.choices[0].message.content
 
