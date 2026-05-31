@@ -21,7 +21,12 @@ def build_index(pdf_path):
     ).split_documents(pages)
     
     client = chromadb.PersistentClient(path="./chroma_db")
+    try:
+        client.delete_collection("pdf")
+    except Exception:
+        pass
     collection = client.get_or_create_collection("pdf")
+    
     collection.add(
         documents=[c.page_content for c in chunks],
         ids=[f"chunk_{i}" for i in range(len(chunks))],
@@ -62,7 +67,7 @@ if __name__ == "__main__":
     pdf_name = input("Type your PDF file name (with .pdf at the end): ").strip()
     collection = build_index(pdf_name)
     while True:
-        q = input("You: ")
+        q = input("You (type quit to end): ")
         if q.lower() in ("quit"):
             break
         if not q:
