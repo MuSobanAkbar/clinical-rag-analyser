@@ -20,6 +20,12 @@ https://huggingface.co/spaces/sobanakbar/client-summary
 - Gradio: web UI, deployed on Hugging Face Spaces
 
 # Evaluation Test Results
+## Pre-tuning
 - Correctly answered: 15
 - Correctly said "I don't know": 4
 - Hallucinated: 1
+## After-tuning
+- Correctly answered: 16
+- Correctly said "I don't know": 4
+- Hallucinated: 0
+- Temperature was brought down from 0.2 to 0.0
