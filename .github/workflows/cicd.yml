@@ -44,8 +44,8 @@ jobs:
               kubectl apply -f k8s/
               
               
-              kubectl set image deployment/clinical-rag-deployment \
-                clinical-rag=${{ secrets.DOCKERHUB_USERNAME }}/clinical-rag-analyser:${{ github.sha }}
+              kubectl set image deployment/chatbot-deployment \
+                chatbot=${{ secrets.DOCKERHUB_USERNAME }}/chatbot:${{ github.sha }}
               
               
-              kubectl rollout status deployment/clinical-rag-deployment
+              kubectl rollout status deployment/chatbot-deployment
