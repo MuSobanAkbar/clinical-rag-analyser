@@ -4,3 +4,5 @@ chroma_db/
 venv/
 __pycache__/
 k8s/secret.yaml
+.terraform/
+*.tfstate*
