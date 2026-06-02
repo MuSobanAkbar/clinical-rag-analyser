@@ -28,3 +28,24 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/chatbot:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/chatbot:${{ github.sha }}
+deploy:
+    needs: build-and-push      
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Spin up a throwaway cluster inside the runner
+        uses: helm/kind-action@v1.14.0 
+
+      - name: Deploy and Verify Rollout
+        run: |
+          
+          kubectl apply -f k8s/
+          
+          
+          kubectl set image deployment/clinical-rag-deployment \
+            clinical-rag=${{ secrets.DOCKERHUB_USERNAME }}/clinical-rag-analyser:${{ github.sha }}
+          
+          
+          kubectl rollout status deployment/clinical-rag-deployment
