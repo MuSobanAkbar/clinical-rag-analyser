@@ -11,10 +11,13 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_s3_bucket" "portfolio" {
-  bucket = "soban-devops-portfolio-2026-bucket" 
-  tags = {
-    Name      = "DevOps Portfolio"
-    ManagedBy = "terraform"
-  }
+
+module "portfolio_bucket" {
+  source      = "./modules/s3-bucket"
+  bucket_name = "soban-devops-portfolio-2026" 
+}
+
+
+output "final_arn" {
+  value = module.portfolio_bucket.bucket_arn
 }
