@@ -1,7 +1,21 @@
 # Clinical Summary RAG Analyser
 
-# What this is
-This takes clinical summaries pdfs, and gives concise answers to questions ONLY ABOUT the given pdf.
+# What this is 
+
+# How It Works
+Starts by loading .env file, then it adds it on to the placeholder for Groq's API key.
+
+It then uses PyPDFLoader to open the PDF file of the patient. If you are on terminal accessing this application, you can 
+simply use the pdf provided in the repo (summary.pdf).
+
+We are using a RecursiveCharacterSplitter, so that once the PDF Is loaded by PyPDFLoader, we can split/chunk the masisve document up for the small language model to read through one at a time, rather than go at it all once. In this specific program, we are making each chunk about 1,000 characters. With a 200 overlap, so there is sufficient context. 
+
+We are also using ChromaDB to store the PDF in "collection". ChromaDB helps us here with semantic search since it takes the PDF and converts it into mathematical vectors, or embeddings.
+
+"metadatas=[{"page": c.metadata.get("page", 0)} for c in chunks],", this is for citing the page to make sure we can cross verify any claims made by the AI.
+
+
+
 
 ## Update 1st June
 - containerized with Docker and deployed to K8s.
