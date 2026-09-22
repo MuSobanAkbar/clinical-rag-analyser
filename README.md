@@ -12,7 +12,10 @@ We are using a RecursiveCharacterSplitter, so that once the PDF Is loaded by PyP
 
 We are also using ChromaDB to store the PDF in "collection". ChromaDB helps us here with semantic search since it takes the PDF and converts it into mathematical vectors, or embeddings.
 
-"metadatas=[{"page": c.metadata.get("page", 0)} for c in chunks],", this is for citing the page to make sure we can cross verify any claims made by the AI.
+"metadatas=[{"page": c.metadata.get("page", 0)} for c in chunks],", this is for citing the page to make sure we can cross verify any claims made by the AI. It then takes the question and searches chromaDB (the collection) 
+
+We then pass the context, question, and temperature to the model for the final answer.
+
 
 
 
